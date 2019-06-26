@@ -1,0 +1,30 @@
+{
+  "name": "express-session-rsdb",
+  "version": "0.1.1",
+  "description": "Rocket-Store session storage for express",
+  "main": "index.js",
+  "scripts": {
+    "test": "example.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/paragi/express-session-rsdb.git"
+  },
+  "keywords": [
+    "express-session",
+    "rocket-store",
+    "session",
+    "storage"
+  ],
+  "author": "Simon Riget @ paragi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/paragi/express-session-rsdb/issues"
+  },
+  "homepage": "https://github.com/paragi/express-session-rsdb#readme",
+  "dependencies": {
+    "express": "",
+    "express-session": "",
+    "rocket-store": ""
+  }
+}

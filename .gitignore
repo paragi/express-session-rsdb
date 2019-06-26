@@ -1,0 +1,33 @@
+# Logs
+logs
+*.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+example-wp.js
+
+# Dependency directory
+wp
+tmp
+nvm
+
+# Editor backups
+*~
+
+# Test cases
+example-ws.js
+apache.txt
+
+# Other
+notes.txt
+nyt.txt
+smartcore.code-workspace
+test.js
+
+/public/var
+serial_number.txt
+node_modules/
+
+test.js
