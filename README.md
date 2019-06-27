@@ -3,7 +3,7 @@ Rocket-Store session storage for express
 
 A very fast and lightweight file storage solution.
 
-The storage provides garbage collection of expired sessions (if not disabled)
+The storage provides garbage collection of expired sessions.
 
 ## Installation
 ```sh
@@ -32,10 +32,11 @@ app.listen(3000);
 ```
 
 ## Options
-
-  - `data_storage_area`  Directory root for rocket-store data files. Defaults to 'rsdb' in OS specific tempory directory.
-  - `collection` name og collection where sessions are stored. Defaults to 'session'
-  - `purge_interval` Time between automated garbage collection of expired sessions, in seconds. Garbage collection is disabled by setting this to 0.
+| option | Description |
+| --- | --- |
+| `data_storage_area` | Directory root for rocket-store data files. Defaults to 'rsdb' in OS specific tempory directory.|
+|`collection` | name og collection where sessions are stored. Defaults to 'session'|
+|`purge_interval` | Time between automated garbage collection of expired sessions, in seconds. Garbage collection is disabled by setting this to 0. |
 
 ```js
 app.use(session({
@@ -47,3 +48,5 @@ app.use(session({
   ...
 }))  
 ```
+## Change log
+* 0.1.2: documentation
