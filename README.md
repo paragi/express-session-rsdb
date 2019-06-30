@@ -7,7 +7,6 @@ The storage provides garbage collection of expired sessions.
 
 
 [![License](https://img.shields.io/npm/l/express-session-rsdb.svg)](https://github.com/paragi/express-session-rsdb/blob/master/LICENSE)
-
 [![downloads per month](http://img.shields.io/npm/dm/express-session-rsdb.svg)](https://www.npmjs.org/package/express-session-rsdb)
 
 ## Installation
