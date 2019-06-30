@@ -11,30 +11,32 @@ const rsdb = require("rocket-store");
 const session = require('express-session');
 const util = require('util');
 
-var collection = 'session';
 /*============================================================================*\
   Session store
 \*============================================================================*/
 const sessionStore = function (options) {
+
   session.Store.call(this, options);
 
   options = options || {};
 
-  let purgeInterval = options.purge_interval || 900; //In seconds
-  collection = options.collection || 'session';
+  sessionStore._purgeInterval = options.purge_interval || 900; //In seconds
+  sessionStore._collection = options.collection || 'session';
 
   if(  options.data_storage_area
     || options.data_format
-    || options.lock_retry_interval )
-    rsdb.options(options)
-      .then(() => ready = true);
+    || options.lock_retry_interval ) {
+    rsdb.options(options);
+  }
 
-  if( purgeInterval > 0 )
+  if( sessionStore._purgeInterval > 0 )
     this.purgeTimer = setInterval(
       sessionStore.prototype.all,
-      purgeInterval * 1000
+      sessionStore._purgeInterval * 1000
     );
 }
+
+sessionStore._collection = 'session';
 
 util.inherits(sessionStore, session.Store);
 
@@ -49,7 +51,7 @@ module.exports = sessionStore;
   This optional method is used to get all sessions in the store as an array. The callback should be called as callback(error, sessions).
 \*============================================================================*/
 sessionStore.prototype.all = (callback) => {
-  rsdb.get(collection)
+  rsdb.get(sessionStore._collection)
   .then((resolve) => {
     let result = [];
     if( Array.isArray(resolve.result) && Array.isArray(resolve.key) )
@@ -73,7 +75,7 @@ sessionStore.prototype.all = (callback) => {
   This required method is used to destroy/delete a session from the store given a session ID (sid). The callback should be called as callback(error) once the session is destroyed.
 \*============================================================================*/
 sessionStore.prototype.destroy = (sessionID,callback) => {
-  rsdb.delete(collection,sessionID)
+  rsdb.delete(sessionStore._collection,sessionID)
     .then((resolve) => {
       if( typeof callback === 'function' ) callback(resolve.error);
     }, (error) => {
@@ -90,7 +92,7 @@ sessionStore.prototype.destroy = (sessionID,callback) => {
   This optional method is used to delete all sessions from the store. The callback should be called as callback(error) once the store is cleared.
 \*============================================================================*/
 sessionStore.prototype.clear = (callback) => {
-  rsdb.delete(collection)
+  rsdb.delete(sessionStore._collection)
   .then((resolve) => {
     if( typeof callback === 'function' ) callback(resolve.error);
   }, (error) => {
@@ -109,7 +111,7 @@ sessionStore.prototype.clear = (callback) => {
   The session argument should be a session if found, otherwise null or undefined if the session was not found (and there was no error). A special case is made when error.code === 'ENOENT' to act like callback(null, null).
 \*============================================================================*/
 sessionStore.prototype.get = (sessionID,callback) => {
-  rsdb.get(collection, sessionID)
+  rsdb.get(sessionStore._collection, sessionID)
     .then((resolve) => {
       // destroy expired session
       if( Array.isArray(resolve.result) && Array.isArray(resolve.key) )
@@ -133,7 +135,7 @@ sessionStore.prototype.get = (sessionID,callback) => {
   This required method is used to upsert a session into the store given a session ID (sid) and session (session) object. The callback should be called as callback(error) once the session has been set in the store.
 \*============================================================================*/
 sessionStore.prototype.set = function (sessionID, data, callback) {
-  rsdb.post(collection, sessionID, data)
+  rsdb.post(sessionStore._collection, sessionID, data)
     .then( (resolve) => {
       if( typeof callback === 'function' )
         callback(resolve.error)
@@ -155,7 +157,7 @@ sessionStore.prototype.set = function (sessionID, data, callback) {
   This optional method is used to get the count of all sessions in the store. The callback should be called as callback(error, len).
 \*============================================================================*/
 sessionStore.prototype.length = (callback) => {
-  rsdb.get(collection,'*',rsdb._COUNT)
+  rsdb.get(sessionStore._collection,'*',rsdb._COUNT)
     .then((resolve) => {
       if( typeof callback === 'function' ) callback(resolve.error, resolve.count);
     }, (error) => {
@@ -175,11 +177,11 @@ sessionStore.prototype.length = (callback) => {
 \*============================================================================*/
 sessionStore.prototype.touch = (sessionID, session, callback) => {
   sessionStore.prototype.get( sessionID, (error, currentSession) => {
-    if( error && typeof callback === 'function' ) return callback(error);
-    if( currentSession && session && session.cookie ) {
+    if( !error && currentSession && session && session.cookie ) {
       currentSession.cookie = session.cookie;
       sessionStore.prototype.set(sessionID, currentSession, callback);
-    }
+    } else if( typeof callback === 'function' )
+      callback(error);
   });
 }
 
@@ -198,7 +200,7 @@ expired = (sessionID, session) => {
   }
 
   if( result )
-    rsdb.delete(collection,sessionID);
+    rsdb.delete(sessionStore._collection,sessionID);
 
   return result;
 }
