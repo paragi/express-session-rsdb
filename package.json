@@ -23,8 +23,9 @@
   },
   "homepage": "https://github.com/paragi/express-session-rsdb#readme",
   "dependencies": {
-    "express": "",
-    "express-session": "",
-    "rocket-store": ""
+    "express": ">4.0",
+    "express-session": ">1.5",
+    "fs-extra": ">8.0",
+    "rocket-store": ">0.10.3"
   }
 }
