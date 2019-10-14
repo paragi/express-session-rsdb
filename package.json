@@ -26,6 +26,6 @@
     "express": ">4.0",
     "express-session": ">1.5",
     "fs-extra": ">8.0",
-    "rocket-store": ">0.10.3"
+    "rocket-store": ">0.10.4"
   }
 }
