@@ -44,7 +44,7 @@ app.listen(3000);
 
 ```js
 app.use(session({
-  store: sessionStore({
+  store: new sessionStore({
       data_storage_area: "./rsdb",
       collection: "session",
       purge_interval: 700,
