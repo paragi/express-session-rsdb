@@ -11,7 +11,7 @@ function assert(condition, message) {
     console.groupEnd();
     process.exit(-1);
   }
-}
+} 
 
 objectHas = function(big, small){ 
   if( typeof small === 'undefined' ) return true;
