@@ -13,7 +13,7 @@ function assert(condition, message) {
   }
 }
 
-objectHas = function(big, small){
+objectHas = function(big, small){ 
   if( typeof small === 'undefined' ) return true;
   if( ( small === null ) != ( big === null ) ) return false;
   if( typeof small !== typeof big ) return false;
