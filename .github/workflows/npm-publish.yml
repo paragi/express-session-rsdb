@@ -3,6 +3,9 @@ name: express-session-rsdb
 on:
   release:
     types: [created]
+  push:
+    branches:
+      - master
 
 jobs:
   publish-npm:
