@@ -7,7 +7,7 @@
 
   License: MIT
 \*============================================================================*/
-const rsdb = require("rocket-store");
+const rsdb = require("rocket-store").default;
 const session = require('express-session');
 const util = require('util');
 
